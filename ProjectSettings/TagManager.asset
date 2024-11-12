@@ -8,9 +8,11 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Pawn
   - Water
   - UI
+  - Interactable
+  - Cursor
   - 
   - 
   - 
@@ -34,9 +36,7 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
+  - WorldSpaceUI
   m_SortingLayers:
   - name: Default
     uniqueID: 0
