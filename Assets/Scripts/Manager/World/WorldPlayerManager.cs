@@ -11,8 +11,12 @@ namespace WinterUniverse
         [SerializeField] private int _jumpCount = 2;
         [SerializeField] private float _jumpSpeed = 2f;
 
-        private void Update()
+        private void Update()// only for test
         {
+            if (WorldManager.StaticInstance.TimeManager.Paused)
+            {
+                return;
+            }
             if (_interactable != null)
             {
                 transform.position = Vector3.MoveTowards(transform.position, _interactable.EntryPoint.position, _moveSpeed * Time.deltaTime);
