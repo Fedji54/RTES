@@ -55,18 +55,18 @@ namespace WinterUniverse
             if (_lookInput != Vector2.zero)
             {
                 _cursor.Translate(_lookSpeed * _currentZoom * Time.unscaledDeltaTime * (Vector3.forward * _lookInput.y + Vector3.right * _lookInput.x));
-                _cursor.localPosition = new(Mathf.Clamp(_cursor.localPosition.x, -_cursorMaxOffset.x, _cursorMaxOffset.x), _cursor.localPosition.y, Mathf.Clamp(_cursor.localPosition.z, -_cursorMaxOffset.z, _cursorMaxOffset.z));
             }
+            _cursor.localPosition = new(Mathf.Clamp(_cursor.localPosition.x, -_cursorMaxOffset.x * _currentZoom, _cursorMaxOffset.x * _currentZoom), _cursor.localPosition.y, Mathf.Clamp(_cursor.localPosition.z, -_cursorMaxOffset.z * _currentZoom, _cursorMaxOffset.z * _currentZoom));
             if (_rotateInput != 0f)
             {
-                transform.Rotate(_rotateSpeed * Time.unscaledDeltaTime * Vector3.up);
+                transform.Rotate(_rotateSpeed * _rotateInput * Time.unscaledDeltaTime * Vector3.up);
             }
             _cameraRoot.localPosition = Vector3.Lerp(_cameraRoot.localPosition, _currentZoom * _zoomMultiplier * _zoomDirection, _zoomSpeed * Time.unscaledDeltaTime);
-            if (Physics.Raycast(transform.position + _raycastOffset, Vector3.down, out _groundHit, _raycastDistance, WorldManager.StaticInstance.LayerManager.ObstacleMask))
+            if (Physics.Raycast(transform.position + _raycastOffset, Vector3.down, out _groundHit, _raycastDistance, WorldManager.StaticInstance.LayerManager.GroundMask))
             {
                 transform.position = _groundHit.point + _heightOffset;
             }
-            if (Physics.Raycast(_cursor.position + _raycastOffset, Vector3.down, out _groundHit, _raycastDistance, WorldManager.StaticInstance.LayerManager.ObstacleMask))
+            if (Physics.Raycast(_cursor.position + _raycastOffset, Vector3.down, out _groundHit, _raycastDistance, WorldManager.StaticInstance.LayerManager.GroundMask))
             {
                 _cursor.position = _groundHit.point + _heightOffset;
             }

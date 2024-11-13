@@ -34,7 +34,6 @@ namespace WinterUniverse
             //
             _soundManager.Initialize();
             _timeManager.Initialize();
-            _timeManager.UnpauseGame();
             _cameraManager.ToggleState(true);
         }
     }

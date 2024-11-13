@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 
 namespace WinterUniverse
@@ -11,6 +12,7 @@ namespace WinterUniverse
 
         private bool _paused = true;
 
+        [SerializeField] private TMP_Text _testGameSpeedText;
         [SerializeField] private float _timeSpeedMultiplier = 600f;
         [SerializeField] private float _timeScale = 1f;
         [SerializeField] private float _slowedMultiplier = 0.5f;
@@ -37,6 +39,7 @@ namespace WinterUniverse
         public void Initialize()
         {
             _currentScaleState = TimeScaleState.Normal;
+            _testGameSpeedText.text = $"{(_paused ? "(Paused) " : "")}Game Speed x{_timeScale:0.##}";
         }
 
         public void HandleUpdate()
@@ -75,6 +78,7 @@ namespace WinterUniverse
                     break;
             }
             Time.timeScale = _timeScale;
+            _testGameSpeedText.text = $"{(_paused ? "(Paused) " : "")}Game Speed x{_timeScale:0.##}";
         }
 
         public void DecelerateTimeScale()
@@ -99,6 +103,7 @@ namespace WinterUniverse
                     break;
             }
             Time.timeScale = _timeScale;
+            _testGameSpeedText.text = $"{(_paused ? "(Paused) " : "")}Game Speed x{_timeScale:0.##}";
         }
 
         public void TogglePause()
@@ -118,6 +123,7 @@ namespace WinterUniverse
             _paused = true;
             // other logic
             OnPauseStateChanged?.Invoke(_paused);
+            _testGameSpeedText.text = $"{(_paused ? "(Paused) " : "")}Game Speed x{_timeScale:0.##}";
         }
 
         public void UnpauseGame()
@@ -125,6 +131,7 @@ namespace WinterUniverse
             _paused = false;
             // other logic
             OnPauseStateChanged?.Invoke(_paused);
+            _testGameSpeedText.text = $"{(_paused ? "(Paused) " : "")}Game Speed x{_timeScale:0.##}";
         }
 
         public void AddMinute(int amount = 1)
