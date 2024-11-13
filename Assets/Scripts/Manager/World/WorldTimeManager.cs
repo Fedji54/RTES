@@ -1,25 +1,36 @@
 using System;
-using TMPro;
 using UnityEngine;
 
 namespace WinterUniverse
 {
     public class WorldTimeManager : MonoBehaviour
     {
-        public Action<bool> OnPauseStateChanged;
+        public Action<bool> OnGamePausedChanged;
+        public Action<float> OnGameSpeedChanged;
         public Action<int, int> OnTimeChanged;
         public Action<int, int, int> OnDateChanged;
 
         private bool _paused = true;
 
-        [SerializeField] private TMP_Text _testGameSpeedText;
         [SerializeField] private float _timeSpeedMultiplier = 600f;
-        [SerializeField] private float _timeScale = 1f;
-        [SerializeField] private float _slowedMultiplier = 0.5f;
-        [SerializeField] private float _acceleratedMultiplier = 2f;
-        [SerializeField] private float _superAcceleratedMultiplier = 4f;
+        [SerializeField] private float _gameSpeed = 1f;
+        [SerializeField] private float _slowStateMultiplier = 0.5f;
+        [SerializeField] private float _fastStateMultiplier = 2f;
+        [SerializeField] private float _veryFastStateMultiplier = 4f;
+        [Header("Time Values")]
+        [SerializeField] private int _secondsInMinute = 60;
+        [SerializeField] private int _minutesInHour = 60;
+        [SerializeField] private int _hoursInDay = 24;
+        [SerializeField] private int _daysInMonth = 30;
+        [SerializeField] private int _monthsInYear = 12;
+        [Header("Move this to data config")]
+        [SerializeField] private int _startingHour = 9;
+        [SerializeField] private int _startingMinute = 25;
+        [SerializeField] private int _startingDay = 2;
+        [SerializeField] private int _startingMonth = 5;
+        [SerializeField] private int _startingYear = 3947;
 
-        private TimeScaleState _currentScaleState;
+        private GameSpeedState _gameSpeedState;
         private float _second;
         private int _minute;
         private int _hour;
@@ -27,7 +38,7 @@ namespace WinterUniverse
         private int _month;
         private int _year;
 
-        public float TimeScale => _timeScale;
+        public float GameSpeed => _gameSpeed;
         public float Second => _second;
         public int Minute => _minute;
         public int Hour => _hour;
@@ -38,72 +49,80 @@ namespace WinterUniverse
 
         public void Initialize()
         {
-            _currentScaleState = TimeScaleState.Normal;
-            _testGameSpeedText.text = $"{(_paused ? "(Paused) " : "")}Game Speed x{_timeScale:0.##}";
+            _gameSpeedState = GameSpeedState.Normal;
+            _hour = _startingHour;
+            _minute = _startingMinute;
+            _day = _startingDay;
+            _month = _startingMonth;
+            _year = _startingYear;
+            OnGamePausedChanged?.Invoke(_paused);
+            OnGameSpeedChanged?.Invoke(_gameSpeed);
+            OnTimeChanged?.Invoke(_hour, _minute);
+            OnDateChanged?.Invoke(_day, _month, _year);
         }
 
-        public void HandleUpdate()
+        private void Update()
         {
             if (_paused)
             {
                 return;
             }
             _second += _timeSpeedMultiplier * Time.deltaTime;
-            if (_second >= 60f)
+            if (_second >= _secondsInMinute)
             {
-                _second -= 60f;
+                _second -= _secondsInMinute;
                 AddMinute();
             }
         }
 
         public void AccelerateTimeScale()
         {
-            switch (_currentScaleState)
+            switch (_gameSpeedState)
             {
-                case TimeScaleState.Slowed:
-                    _currentScaleState = TimeScaleState.Normal;
-                    _timeScale = 1f;
+                case GameSpeedState.Slow:
+                    _gameSpeedState = GameSpeedState.Normal;
+                    _gameSpeed = 1f;
                     break;
-                case TimeScaleState.Normal:
-                    _currentScaleState = TimeScaleState.Accelerated;
-                    _timeScale = _acceleratedMultiplier;
+                case GameSpeedState.Normal:
+                    _gameSpeedState = GameSpeedState.Fast;
+                    _gameSpeed = _fastStateMultiplier;
                     break;
-                case TimeScaleState.Accelerated:
-                    _currentScaleState = TimeScaleState.SuperAccelerated;
-                    _timeScale = _superAcceleratedMultiplier;
+                case GameSpeedState.Fast:
+                    _gameSpeedState = GameSpeedState.VeryFast;
+                    _gameSpeed = _veryFastStateMultiplier;
                     break;
-                case TimeScaleState.SuperAccelerated:
-                    _currentScaleState = TimeScaleState.Slowed;
-                    _timeScale = _slowedMultiplier;
+                case GameSpeedState.VeryFast:
+                    _gameSpeedState = GameSpeedState.Slow;
+                    _gameSpeed = _slowStateMultiplier;
                     break;
             }
-            Time.timeScale = _timeScale;
-            _testGameSpeedText.text = $"{(_paused ? "(Paused) " : "")}Game Speed x{_timeScale:0.##}";
+            Time.timeScale = _gameSpeed;
+            OnGameSpeedChanged?.Invoke(_gameSpeed);
         }
 
         public void DecelerateTimeScale()
         {
-            switch (_currentScaleState)
+            switch (_gameSpeedState)
             {
-                case TimeScaleState.Slowed:
-                    _currentScaleState = TimeScaleState.SuperAccelerated;
-                    _timeScale = _superAcceleratedMultiplier;
+                case GameSpeedState.Slow:
+                    _gameSpeedState = GameSpeedState.VeryFast;
+                    _gameSpeed = _veryFastStateMultiplier;
                     break;
-                case TimeScaleState.Normal:
-                    _currentScaleState = TimeScaleState.Slowed;
-                    _timeScale = _slowedMultiplier;
+                case GameSpeedState.Normal:
+                    _gameSpeedState = GameSpeedState.Slow;
+                    _gameSpeed = _slowStateMultiplier;
                     break;
-                case TimeScaleState.Accelerated:
-                    _currentScaleState = TimeScaleState.Normal;
-                    _timeScale = 1f;
+                case GameSpeedState.Fast:
+                    _gameSpeedState = GameSpeedState.Normal;
+                    _gameSpeed = 1f;
                     break;
-                case TimeScaleState.SuperAccelerated:
-                    _currentScaleState = TimeScaleState.Accelerated;
-                    _timeScale = _acceleratedMultiplier;
+                case GameSpeedState.VeryFast:
+                    _gameSpeedState = GameSpeedState.Fast;
+                    _gameSpeed = _fastStateMultiplier;
                     break;
             }
-            Time.timeScale = _timeScale;
-            _testGameSpeedText.text = $"{(_paused ? "(Paused) " : "")}Game Speed x{_timeScale:0.##}";
+            Time.timeScale = _gameSpeed;
+            OnGameSpeedChanged?.Invoke(_gameSpeed);
         }
 
         public void TogglePause()
@@ -122,46 +141,44 @@ namespace WinterUniverse
         {
             _paused = true;
             // other logic
-            OnPauseStateChanged?.Invoke(_paused);
-            _testGameSpeedText.text = $"{(_paused ? "(Paused) " : "")}Game Speed x{_timeScale:0.##}";
+            OnGamePausedChanged?.Invoke(_paused);
         }
 
         public void UnpauseGame()
         {
             _paused = false;
             // other logic
-            OnPauseStateChanged?.Invoke(_paused);
-            _testGameSpeedText.text = $"{(_paused ? "(Paused) " : "")}Game Speed x{_timeScale:0.##}";
+            OnGamePausedChanged?.Invoke(_paused);
         }
 
         public void AddMinute(int amount = 1)
         {
             _minute += amount;
-            while (_minute >= 60)
+            while (_minute >= _minutesInHour)
             {
-                _minute -= 60;
+                _minute -= _minutesInHour;
                 AddHour();
             }
-            OnTimeChanged?.Invoke(_minute, _hour);
+            OnTimeChanged?.Invoke(_hour, _minute);
         }
 
         public void AddHour(int amount = 1)
         {
             _hour += amount;
-            while (_hour >= 24)
+            while (_hour >= _hoursInDay)
             {
-                _hour -= 24;
+                _hour -= _hoursInDay;
                 AddDay();
             }
-            OnTimeChanged?.Invoke(_minute, _hour);
+            OnTimeChanged?.Invoke(_hour, _minute);
         }
 
         public void AddDay(int amount = 1)
         {
             _day += amount;
-            while (_day > 30)
+            while (_day > _daysInMonth)
             {
-                _day -= 30;
+                _day -= _daysInMonth;
                 AddMonth();
             }
             OnDateChanged?.Invoke(_day, _month, _year);
@@ -170,9 +187,9 @@ namespace WinterUniverse
         public void AddMonth(int amount = 1)
         {
             _month += amount;
-            while (_month > 12)
+            while (_month > _monthsInYear)
             {
-                _month -= 12;
+                _month -= _monthsInYear;
                 AddYear();
             }
             OnDateChanged?.Invoke(_day, _month, _year);

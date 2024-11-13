@@ -102,6 +102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dd365fd758d59048b719115b9713921, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _config: {fileID: 11400000, guid: 8fa08c61f54e80949bda902bf6b5f517, type: 2}
   _entryPoint: {fileID: 8599044888373151317}
   _outline: {fileID: 8996825157185189722}
 --- !u!54 &8310540111030323594

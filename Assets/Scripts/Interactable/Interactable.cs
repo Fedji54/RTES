@@ -4,9 +4,11 @@ namespace WinterUniverse
 {
     public abstract class Interactable : MonoBehaviour
     {
+        [SerializeField] private InteractableConfig _config;
         [SerializeField] private Transform _entryPoint;
         [SerializeField] private GameObject _outline;
 
+        public InteractableConfig Config => _config;
         public Transform EntryPoint => _entryPoint;
 
         protected virtual void Start()

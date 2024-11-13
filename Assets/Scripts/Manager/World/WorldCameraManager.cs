@@ -1,9 +1,12 @@
+using System;
 using UnityEngine;
 
 namespace WinterUniverse
 {
     public class WorldCameraManager : MonoBehaviour
     {
+        public Action<Interactable> OnInteractableChanged;
+
         [Header("Input")]
         [SerializeField] private float _moveSpeed = 10f;
         [SerializeField] private float _lookSpeed = 5f;
@@ -116,6 +119,7 @@ namespace WinterUniverse
             if (interactable != null)
             {
                 interactable.ToggleOutline(true);
+                OnInteractableChanged?.Invoke(interactable);
             }
         }
 
@@ -125,6 +129,7 @@ namespace WinterUniverse
             if (interactable != null)
             {
                 interactable.ToggleOutline(false);
+                OnInteractableChanged?.Invoke(null);
             }
         }
     }
