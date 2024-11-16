@@ -19,8 +19,9 @@ namespace WinterUniverse
         public void OnZoom(InputValue value) => WorldManager.StaticInstance.CameraManager.ChangeZoom(value.Get<float>());
         public void OnInteract() => WorldManager.StaticInstance.CameraManager.Interact();
         public void OnResetCamera() => WorldManager.StaticInstance.CameraManager.ResetCamera();
-        public void OnTogglePause() => WorldManager.StaticInstance.TimeManager.TogglePause();
-        public void OnDecelerateTimeScale() => WorldManager.StaticInstance.TimeManager.DecelerateTimeScale();
-        public void OnAccelerateTimeScale() => WorldManager.StaticInstance.TimeManager.AccelerateTimeScale();
+        public void OnToggleGamePause() => WorldManager.StaticInstance.TimeManager.ToggleGamePause();
+        public void OnDecelerateGameSpeed() => WorldManager.StaticInstance.TimeManager.DecelerateGameSpeed();
+        public void OnNormalizeGameSpeed() => WorldManager.StaticInstance.TimeManager.NormalizeGameSpeed();
+        public void OnAccelerateGameSpeed() => WorldManager.StaticInstance.TimeManager.AccelerateGameSpeed();
     }
 }

@@ -75,32 +75,7 @@ namespace WinterUniverse
             }
         }
 
-        public void AccelerateTimeScale()
-        {
-            switch (_gameSpeedState)
-            {
-                case GameSpeedState.Slow:
-                    _gameSpeedState = GameSpeedState.Normal;
-                    _gameSpeed = 1f;
-                    break;
-                case GameSpeedState.Normal:
-                    _gameSpeedState = GameSpeedState.Fast;
-                    _gameSpeed = _fastStateMultiplier;
-                    break;
-                case GameSpeedState.Fast:
-                    _gameSpeedState = GameSpeedState.VeryFast;
-                    _gameSpeed = _veryFastStateMultiplier;
-                    break;
-                case GameSpeedState.VeryFast:
-                    _gameSpeedState = GameSpeedState.Slow;
-                    _gameSpeed = _slowStateMultiplier;
-                    break;
-            }
-            Time.timeScale = _gameSpeed;
-            OnGameSpeedChanged?.Invoke(_gameSpeed);
-        }
-
-        public void DecelerateTimeScale()
+        public void DecelerateGameSpeed()
         {
             switch (_gameSpeedState)
             {
@@ -125,7 +100,40 @@ namespace WinterUniverse
             OnGameSpeedChanged?.Invoke(_gameSpeed);
         }
 
-        public void TogglePause()
+        public void NormalizeGameSpeed()
+        {
+            _gameSpeedState = GameSpeedState.Normal;
+            _gameSpeed = 1f;
+            Time.timeScale = _gameSpeed;
+            OnGameSpeedChanged?.Invoke(_gameSpeed);
+        }
+
+        public void AccelerateGameSpeed()
+        {
+            switch (_gameSpeedState)
+            {
+                case GameSpeedState.Slow:
+                    _gameSpeedState = GameSpeedState.Normal;
+                    _gameSpeed = 1f;
+                    break;
+                case GameSpeedState.Normal:
+                    _gameSpeedState = GameSpeedState.Fast;
+                    _gameSpeed = _fastStateMultiplier;
+                    break;
+                case GameSpeedState.Fast:
+                    _gameSpeedState = GameSpeedState.VeryFast;
+                    _gameSpeed = _veryFastStateMultiplier;
+                    break;
+                case GameSpeedState.VeryFast:
+                    _gameSpeedState = GameSpeedState.Slow;
+                    _gameSpeed = _slowStateMultiplier;
+                    break;
+            }
+            Time.timeScale = _gameSpeed;
+            OnGameSpeedChanged?.Invoke(_gameSpeed);
+        }
+
+        public void ToggleGamePause()
         {
             if (_paused)
             {

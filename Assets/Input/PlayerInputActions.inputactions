@@ -51,7 +51,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "TogglePause",
+                    "name": "ToggleGamePause",
                     "type": "Button",
                     "id": "968dbc40-4f8c-4587-ae26-a8fb6ffbf9b3",
                     "expectedControlType": "",
@@ -60,7 +60,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "DecelerateTimeScale",
+                    "name": "DecelerateGameSpeed",
                     "type": "Button",
                     "id": "d70150bf-7c52-4e6a-8bce-10992b1cf47d",
                     "expectedControlType": "",
@@ -69,7 +69,16 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "AccelerateTimeScale",
+                    "name": "NormalizeGameSpeed",
+                    "type": "Button",
+                    "id": "ccbcaca0-1bd7-478a-838b-03bb9644be0b",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "AccelerateGameSpeed",
                     "type": "Button",
                     "id": "91e9e572-5ab3-427a-8182-b342593cde07",
                     "expectedControlType": "",
@@ -246,17 +255,6 @@
                 },
                 {
                     "name": "",
-                    "id": "d9e77627-8c46-41cc-9ccd-1110d50facd7",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "Interact",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "c50f2da4-02c3-4516-a558-1b8ac8bb6692",
                     "path": "<Keyboard>/enter",
                     "interactions": "",
@@ -273,18 +271,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
-                    "action": "TogglePause",
+                    "action": "ToggleGamePause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "613f58ec-9db9-4caf-abce-5e36aad7d6ef",
-                    "path": "<Keyboard>/2",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "TogglePause",
+                    "action": "ToggleGamePause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -295,7 +293,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
-                    "action": "AccelerateTimeScale",
+                    "action": "AccelerateGameSpeed",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -306,7 +304,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "AccelerateTimeScale",
+                    "action": "AccelerateGameSpeed",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -317,7 +315,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
-                    "action": "DecelerateTimeScale",
+                    "action": "DecelerateGameSpeed",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -328,7 +326,29 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "DecelerateTimeScale",
+                    "action": "DecelerateGameSpeed",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2168fc91-591c-4105-8022-84010ba3279d",
+                    "path": "<Gamepad>/select",
+                    "interactions": "MultiTap",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "NormalizeGameSpeed",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a1fd28c9-1204-4f61-aa4c-3fc850633b6b",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "NormalizeGameSpeed",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
